@@ -1,0 +1,12 @@
+Package: UCSthdTimeSeries
+Title: Time series of steelhead in Upper Columbia
+Version: 0.0.0.9000
+Authors@R: 
+    person("Kevin", "See", , "kevin.see@dfw.wa.gov", role = c("aut", "cre"))
+Description: Compiles a time series of best estimates (current) and compares those to a time series of estimates using an older method. Develops a cross walk between the two, and adjusts the older time series to match the more current time series in recent years.
+License: MIT + file LICENSE
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2

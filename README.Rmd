@@ -1,0 +1,63 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+# Please put your title here to include it in the file below.
+Title <- "Title of your paper goes here"
+```
+
+# Upper Columbia Steelhead Time Series
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/KevinSee/UCSthdTimeSeries/master?urlpath=rstudio)
+
+This repository contains the data and code to create a long time-series of steelhead spawner abundance, by origin, in the Wenatchee subbasin. It uses more recent estimates that involve incorporating redd observer error models to adjust redd counts and PIT tag based escapement models to estimate spawners in the tributaries. These estimates from recent years are associates with estimates using an older method, and a cross walk between them is developed. This cross walk is then applied to the older years of the complete time-series. 
+
+
+
+## Contents
+
+The **analysis** directory contains:
+
+  - [:file\_folder: data](/analysis/data): Data used in the analysis.
+  - [:file\_folder: figures](/analysis/figures): Plots and other
+    illustrations
+  - [:file\_folder: literature](/analysis/literature): PDFs of relevant papers and reports
+  - [:file\_folder: markdowns](/analysis/markdowns): R Markdown source documents
+    for various analyses and write-ups.
+  - [:file\_folder: scripts](/analysis/scripts): R scripts
+  - [:file\_folder: templates](/analysis/templates):
+    various templates and other files to make the Rmarkdown documents look pretty.  
+    
+## How to run in your browser or download and run locally
+
+This research compendium has been developed using the statistical programming
+language R. To work with the compendium, you will need
+installed on your computer the [R software](https://cloud.r-project.org/)
+itself and optionally [RStudio Desktop](https://rstudio.com/products/rstudio/download/).
+
+You can download the compendium as a zip from from this URL:
+[main.zip](/archive/main.zip). After unzipping:
+- open the `.Rproj` file in RStudio
+- run `devtools::install()` to ensure you have the packages this analysis depends on (also listed in the
+[DESCRIPTION](/DESCRIPTION) file).
+
+### Licenses
+
+**Text and figures :**  [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/)
+
+**Code :** See the [DESCRIPTION](DESCRIPTION) file
+
+**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
+
+### Contributions
+
+We welcome contributions from everyone. Before you get started, please see our [contributor guidelines](CONTRIBUTING.md). Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+

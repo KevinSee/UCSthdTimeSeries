@@ -1,0 +1,1146 @@
+---
+title: "Estimates of Wenatchee Steelhead Spawners"
+subtitle: "Spawn Years 1987-2021"
+author:
+  - Kevin See:
+      email: Kevin.See@dfw.wa.gov
+      institute: [wdfw]
+      correspondence: true
+institute:
+  - wdfw: Washington Department of Fish & Wildlife
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+    bookdown::pdf_document2:
+      fig_caption: yes
+      fig_height: 5
+      fig_width: 6
+      toc: yes
+      includes:
+        in_header: ../templates/header_wdfw.tex
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks2.lua
+      - --lua-filter=../templates/pagebreak.lua
+    wdfwTemplates::wdfw_html_format2:
+      fig_caption: yes
+      fig_height: 5
+      fig_width: 9
+      toc: yes
+      toc_depth: 3
+      toc_float:
+        collapsed: yes
+        smooth_scroll: yes
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua
+    bookdown::html_document2:
+      fig_caption: yes
+      fig_height: 6
+      fig_width: 6
+      toc: yes
+      toc_depth: 3
+      toc_float:
+        collapsed: yes
+        smooth_scroll: yes
+      theme: simplex
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua
+    bookdown::word_document2:
+      fig_caption: yes
+      fig_height: 4
+      fig_width: 6
+      toc: yes
+      reference_docx: "../templates/ReportTemplate.docx" # Insert path for the DOCX file
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua
+bibliography:
+- references.bib
+- packages.bib
+csl: "../templates/american-fisheries-society.csl" # Insert path for the bib-style
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE,
+  comment = "#>",
+  fig.path = "../figures/",
+  dpi = 300
+)
+```
+
+```{r packages}
+# load these packages
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(janitor)
+library(magrittr)
+library(msm)
+library(here)
+library(kableExtra)
+
+# plotting theme
+theme_set(theme_bw())
+
+# knitr options
+options(knitr.kable.NA = '-')
+
+# when knitting to Word, use this
+# what kind of document is being created?
+doc.type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
+
+if(doc.type == 'docx') {
+  options(knitr.table.format = "pandoc")
+}
+
+# if(doc.type == "pdf") {
+#   knitr::opts_chunk$set(
+#     echo = FALSE
+#   )
+# }
+
+```
+
+```{r package-bibtex, eval = F}
+knitr::write_bib(c("MARSS"),
+                 file = 'packages.bib')
+```
+
+
+```{r read-ts}
+old_ts = read_excel(here("analysis/data/raw_data",
+                         "Wenatchee steelhead spawners old method.xlsx"),
+                    skip = 1) %>%
+  rename(hor_spwn = Hatchery,
+         nor_spwn = Wild,
+         tot_spwn = Total)
+
+new_ts = read_csv(here("analysis/data/derived_data",
+                       "Wenatchee_Sthd_Spwn_2004-2022.csv")) %>%
+  mutate(tot_spwn = hor_spwn + nor_spwn)
+
+ts_df <- new_ts %>%
+  add_column(method = "new",
+             .after = 1) %>%
+  bind_rows(old_ts %>%
+              add_column(method = "old",
+                         .after = 1)) %>%
+  arrange(year,
+          method) %>%
+  select(-tot_spwn) %>%
+  pivot_longer(cols = c(starts_with("hor"),
+                        starts_with("nor"))) %>%
+  mutate(type = if_else(str_detect(name, "_se"),
+                        "se",
+                        "est"),
+         origin = if_else(str_detect(name, "^hor"),
+                          "hor",
+                          "nor")) %>%
+  select(-name) %>%
+  pivot_wider(names_from = type,
+              values_from = value)
+
+```
+
+
+```{r additional-time-series}
+hatch_release <- read_excel(here("analysis/data/raw_data",
+                                 "Wenatchee Hatchery Steelhead Release Numbers.xlsx")) %>%
+  clean_names() %>%
+  mutate(origin = "hor")
+
+
+release_ts = hatch_release %>%
+  mutate(SY = release + 2,
+         salt_1 = lag(smolts, 0),
+         salt_2 = lag(smolts, 1)) %>%
+  rowwise() %>%
+  mutate(wgt_smolts = weighted.mean(c(salt_1,
+                                      salt_2),
+                                    w = c(0.7, 0.3))) %>%
+  mutate(method = "smolts") %>%
+  select(year = SY,
+         origin,
+         method,
+         est = wgt_smolts) %>%
+  filter(year %in% unique(ts_df$year))
+
+```
+
+```{r dam-counts}
+# get the total dam counts from various dams
+dam_cnts = tibble(dam = c("McNary",
+                          "Ice Harbor",
+                          "Prosser",
+                          "Rock Island",
+                          "Bonneville"),
+                  dam_code = c("MCN",
+                               "IHR",
+                               "PRO",
+                               "RIS",
+                               "BON")) %>%
+  crossing(year = sort(unique(ts_df$year))) %>%
+  rowwise() %>%
+  mutate(win_cnt = map2_dbl(dam_code,
+                            year,
+                            .f = function(x, y) {
+                              suppressMessages(STADEM::getWindowCounts(dam = x,
+                                                                       spp = "Steelhead",
+                                                                       start_date = paste0(y-1, '0601'),
+                                                                       end_date = paste0(y, '0531'))) %>%
+                               summarise_at(vars(win_cnt),
+                                            list(sum),
+                                            na.rm = T) %>%
+                               pull(win_cnt)
+                           })) %>%
+  ungroup() %>%
+  select(year, everything())
+```
+
+```{r, eval = F}
+dam_cnts %>%
+  ggplot(aes(x = year,
+             y = win_cnt)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ dam,
+             scales = "free_y")
+
+dam_cnts %>%
+  inner_join(ts_df) %>%
+  group_by(dam_code, 
+           method,
+           origin) %>%
+  summarize(r = cor(est, win_cnt,
+                use = "pairwise"),
+            .groups = "drop") %>%
+  arrange(desc(r))
+
+
+dam_cnts %>%
+  inner_join(ts_df) %>%
+  group_by(dam_code, 
+           method,
+           origin) %>%
+  ggplot(aes(x = est,
+             y = win_cnt,
+             color = origin,
+             fill = origin)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  facet_wrap(~ dam,
+             scales = "free")
+```
+
+
+# Goal
+
+The current method of estimating spawners in the Wenatchee subbasin involves using a PIT-tag based escapement model (DABOM) to estimate tributary spawners [@Waterhouse2020] and adjust the observed redd counts in the mainstem Wenatchee from two observers with a redd observer error model [@Murdoch2018]. These adjusted redd counts are combined with redd counts in tributaries below the PIT tag arrays. The PIT tags observed moving into the mainstem (or the tributaries) are used to calculate a fish / redd estimate (males/females + 1 [@Murdoch2009]) and the proportion of hatchery fish on the spawning grounds (pHOS), both of which are used to translate estimates of redds into estimates of hatchery and natural origin spawners. This method has been utilized from spawn year 2014 until the present. 
+
+From 2011-2013, the exact same methods were used, except redd counts were adjusted for observer error estimated using the one-observer net error model from @Murdoch2018, because redd surveys in the Wenatchee during that time used a one-observer methodology.
+
+From 2004-2010, estimates of spawners come mainly from redd surveys, which are adjusted using the one-observer net error model from @Murdoch2018. Estimates of fish / redd and pHOS come from fish sampled at Dryden dam. There were three tributaries (Mission, Chumstick and Chiwaukum) that were not part of the redd sampling frame. However, when PIT tag arrays were placed in those tributaries after 2011, some steelhead spawning was observed. Therefore, for 2004-2010, we expanded the estimate of hatchery and natural origin spawners by the mean proportion of overall Wenatchee spawners in those tributaries from 2011 on. 
+
+This results in a complete time series from 2004-2021 of estimates of hatchery and natural origin spawners, with associated standard errors. We believe these estimates to be unbiased, based on @Murdoch2018 and @Waterhouse2020. 
+
+There is another time series of estimates, from 1987 - 2021, using older methods based on dam counts at the mainstem dams on the Upper Columbia. The goal of this work is to establish a relationship between the two time-series, and use that relationship to "adjust" the older time-series, from 1987-2003, to better match the more recent time-series. 
+
+
+```{r ts-fig, fig.cap = "Time-series of hatchery and natural origin spawners in the Wenatchee, colored by what method was used. Error bars represent 95% confidence intervals where available."}
+ts_df %>%
+  mutate(across(method,
+                str_to_title),
+         across(origin,
+                recode,
+                "hor" = "Hatchery",
+                "nor" = "Natural")) %>%
+  ggplot(aes(x = year,
+             y = est,
+             color = method)) +
+  geom_line() +
+  geom_errorbar(aes(ymin = qnorm(0.025, est, se),
+                    ymax = qnorm(0.975, est, se)),
+                width = 0) +
+  geom_point(aes(shape = method)) +
+  scale_shape_manual(values = c("New" = 19,
+                                "Old" = 17),
+                     name = "Method") +
+  facet_wrap(~ origin,
+             ncol = 1) +
+  scale_color_brewer(palette = "Set1",
+                     name = "Method") +
+  labs(x = "Year",
+       y = "Estimate")
+
+```
+
+```{r xy-fig, fig.height = 4, fig.cap = "Scatterplots of hatchery and natural origin spawners in the Wenatachee, as estimated by the old method (x-axis) and new methods (y-axis). The blue line is a loess fit, and the red line shows a linear fit forced through the origin."}
+ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  ggplot(aes(x = est_old,
+             y = est_new)) +
+  geom_abline(linetype = 2) +
+  geom_errorbar(aes(ymin = qnorm(0.025, est_new, se_new),
+                    ymax = qnorm(0.975, est_new, se_new)),
+                width = 0) +
+  geom_point() +
+  geom_smooth(fill = "lightblue",
+              alpha = 0.3) +
+  geom_smooth(method = lm,
+              formula = y ~ x - 1,
+              color = "red",
+              fill = "pink",
+              alpha = 0.3) +
+  facet_wrap(~ origin) +
+  labs(x = "Old Method",
+       y = "New Methods")
+```
+
+```{r xy-ll-fig, fig.height = 4, fig.cap = "Log-log scatterplots of hatchery and natural origin spawners in the Wenatachee, as estimated by the old method (x-axis) and new methods (y-axis). The blue line is a loess fit, and the red line shows a linear fit forced through the origin."}
+ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  ggplot(aes(x = est_old,
+             y = est_new)) +
+  geom_abline(linetype = 2) +
+  geom_errorbar(aes(ymin = qnorm(0.025, est_new, se_new),
+                    ymax = qnorm(0.975, est_new, se_new)),
+                width = 0) +
+  geom_point() +
+  scale_x_continuous(trans = "log",
+                     breaks = scales::breaks_pretty()) +
+  scale_y_continuous(trans = "log",
+                     breaks = scales::breaks_pretty()) +
+  geom_smooth(fill = "lightblue",
+              alpha = 0.3) +
+  geom_smooth(method = lm,
+              formula = y ~ x - 1,
+              color = "red",
+              fill = "pink",
+              alpha = 0.3) +
+  facet_wrap(~ origin) +
+  labs(x = "Old Method",
+       y = "New Methods")
+```
+
+# Methods and Results
+
+## Linear Model
+
+Treat each year as independent, and fit a linear model that includes interactions with origin for both the intercept and slope, with the new estimates as the independent variable and old estimates as the dependent variable. We also tested a log-log linear regression, which involved taking the natural logarithm of each time-series before fitting a linear regression. 
+
+```{r, eval = T}
+lin_mod <- ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  filter(!is.na(est_new)) %>%
+  lm(est_new ~ est_old*origin,
+     data = .)
+
+# summary(lin_mod)
+# 
+# summary(lin_mod) %>%
+#   broom::tidy()
+```
+
+```{r log-log, eval = F}
+lin_mod_ll_df <- ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  filter(!is.na(est_new)) %>%
+  left_join(release_ts %>%
+              mutate(log_smolts = log(est)) %>%
+              select(year, origin,
+                     log_smolts)) %>%
+  group_by(origin) %>%
+  nest() %>%
+  crossing(incl_smolts = c(T, F)) %>%
+  filter(!(origin == "nor" & incl_smolts)) %>%
+  mutate(mod_form = list(formula(log(est_new) ~ log(est_old)))) %>%
+  mutate(mod_form = map2(incl_smolts, mod_form,
+                         .f = function(x, y) {
+                           if(x) {
+                             y = update(y, . ~ . + log_smolts)
+                           }
+                           return(y)
+                         })) %>%
+  rowwise() %>%
+  mutate(mod = list(lm(mod_form, data))) %>%
+  ungroup() %>%
+  mutate(adj_r2 = map_dbl(mod,
+                          .f = function(x) {
+                            summary(x)$adj.r.squared
+                          }))
+
+lin_mod_ll_df %>%
+  pull(mod) %>%
+  map(summary)
+
+library(ggfortify)
+lin_mod_ll_df$mod[[3]] %>%
+  autoplot(c(1:6))
+
+
+lin_mod_data <- ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  filter(!is.na(est_new)) %>%
+  left_join(release_ts %>%
+              mutate(log_smolts = log(est)) %>%
+              select(year, #origin,
+                     log_smolts))
+
+lin_mod_ll <- lm(log(est_new) ~ log(est_old)*origin*log_smolts,
+     data = lin_mod_data,
+     na.action = "na.fail")
+
+
+broom::tidy(lin_mod_ll)
+
+dd <- MuMIn::dredge(lin_mod_ll)
+dd
+MuMIn::sw(dd)
+ll_mod_avg <- MuMIn::model.avg(dd)
+
+summary(ll_mod_avg)
+
+```
+
+
+```{r log-log-fit}
+# ignore the smolt releases
+lin_mod_data <- ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  filter(!is.na(est_new),
+         !is.na(est_old))
+
+lin_mod_ll <- lm(log(est_new) ~ log(est_old)*origin,
+     data = lin_mod_data,
+     na.action = "na.fail")
+
+# plot the time-series with log-log predictions
+ll_fit_p <- ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  left_join(release_ts %>%
+              mutate(log_smolts = log(est)) %>%
+              select(year, #origin,
+                     log_smolts)) %>%
+  bind_cols(predict(lin_mod_ll,
+                    newdata = .,
+                    se.fit = T) %>%
+              as_tibble() %>%
+              select(mu = fit,
+                     sig = se.fit)) %>%
+  mutate(lci = qnorm(0.025, mu, sig),
+         uci = qnorm(0.975, mu, sig)) %>%
+  rowwise() %>%
+  mutate(sig2 = sig^2) %>%
+  mutate(mean_x = exp(mu + 0.5 * sig2),
+         med_x = exp(mu),
+         mode_x = exp(mu - sig2),
+         var_x = exp(2*mu + sig2) * (exp(sig2) - 1),
+         sd_x = sqrt(var_x)) %>%
+  mutate(across(c(lci, uci),
+                exp)) %>%
+  ungroup() %>%
+  mutate(across(origin,
+                recode,
+                "hor" = "Hatchery",
+                "nor" = "Natural")) %>%
+  rename(pred = med_x,
+         se_pred = sd_x) %>%
+  ggplot(aes(x = year,
+             y = pred)) +
+  geom_ribbon(aes(ymin = lci,
+                  ymax = uci),
+              fill = "lightgray") +
+  geom_line(size = 1) +
+  geom_point(aes(y = est_old,
+                 color = "Old"),
+             shape = 17,
+             size = 2) +
+  geom_errorbar(aes(ymin = qnorm(0.025, est_new, se_new),
+                    ymax = qnorm(0.975, est_new, se_new),
+                    color = "New"),
+                width = 0) +
+  geom_point(aes(y = est_new,
+                 color = "New"),
+             size = 2) +
+  scale_color_brewer(palette = "Set1",
+                     name = "Method") +
+  facet_wrap(~ origin,
+             scales = "free_y",
+             ncol = 1) +
+  labs(x = "Year",
+       y = "Spawners")
+
+
+```
+
+```{r lin-fit, fig.cap = "Black lines show linear regression estimates with the 95% confidence intervals depicted as grey ribbons. Blue triangles depict estimates from the old time-series, while red points and 95% confidence intervals are from the new time-series."}
+ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  bind_cols(predict(lin_mod,
+                    newdata = .,
+                    se.fit = T) %>%
+              as_tibble() %>%
+              select(pred = fit,
+                     se_pred = se.fit)) %>%
+  mutate(across(origin,
+                recode,
+                "hor" = "Hatchery",
+                "nor" = "Natural")) %>%
+  ggplot(aes(x = year,
+             y = pred)) +
+  geom_ribbon(aes(ymin = qnorm(0.025, pred, se_pred),
+                  ymax = qnorm(0.975, pred, se_pred)),
+              fill = "lightgray") +
+  geom_line(size = 1) +
+  # geom_point(shape = 8,
+  #            size = 3) +
+  geom_point(aes(y = est_old,
+                 color = "Old"),
+             shape = 17,
+             size = 2) +
+  geom_errorbar(aes(ymin = qnorm(0.025, est_new, se_new),
+                    ymax = qnorm(0.975, est_new, se_new),
+                    color = "New"),
+                width = 0) +
+  geom_point(aes(y = est_new,
+                 color = "New"),
+             size = 2) +
+  scale_color_brewer(palette = "Set1",
+                     name = "Method") +
+  facet_wrap(~ origin,
+             scales = "free_y",
+             ncol = 1) +
+  labs(x = "Year",
+       y = "Spawners")
+
+
+```
+
+
+```{r log-log-fig, fig.cap = "Black lines show log-log linear regression estimates with the 95% confidence intervals depicted as grey ribbons. Blue triangles depict estimates from the old time-series, while red points and 95% confidence intervals are from the new time-series."}
+ll_fit_p
+```
+
+### Linear Modeling Results
+
+Neither a linear nor a log-log linear model fit the data very well (Figures \@ref(fig:xy-fig) and \@ref(fig:xy-ll-fig)). A linear fit to these scatter plots would imply a consistent bias (either additive or multiplicative). The lack of such an obvious fit implies the relationship between the two time-series is more complicated. Both appeared to underestimate abundance during years when the older method predicted high numbers steelhead spawners (Figures \@ref(fig:lin-fit) and \@ref(fig:log-log-fig)).
+
+## MARSS
+
+Fit a multivariate auto-regressive state-space (MARSS) model [@MARSS2012; @R-MARSS] to the two time-series, ensuring that the only offset of the true states is for the old time-series and that the observation error of the new time-series is informed by mean standard error from the new time-series. 
+
+A MARSS model is of the form:
+
+$$
+\begin{split}
+\textbf{x}_t = \textbf{B} \textbf{x}_{t-1} + \textbf{u} + \textbf{C}_t\textbf{c}_t + \textbf{w}_t, \text{where } \textbf{w}_t \sim MVN(0, \textbf{Q}) \\
+\textbf{y}_t = \textbf{Z} \textbf{x}_t + \textbf{a} + \textbf{D}_t\textbf{d}_t + \textbf{v}_t, \text{where } \textbf{v}_t \sim MVN(0, \textbf{R})
+\end{split}
+$$
+where $\textbf{x}_t$ represents the true state at time $t$, which change as a correlated random walk through time. The $\textbf{u}$ term represents average drift or trend through time. Meanwhile, $\textbf{y}_t$ represent the observations of those true states, $\textbf{x}_t$. Which state each element of $\textbf{y}_t$ is an observation of is determined by the $\textbf{Z}$ matrix, while $\textbf{a}$ represents a fixed offset between different elements of $\textbf{y}$. $\textbf{C}_t$ and $\textbf{D}_t$ are possible parameters that show how inputs $\textbf{c}_t$ and $\textbf{d}_t$ influence the states ($\textbf{x}_t$) or observations ($\textbf{y}_t$); in other words they are covariates. Finally $\textbf{Q}$ is the process error variance, while $\textbf{R}$ is the observation error covariance matrix. This framework works best in log-space, so we log-transformed $\textbf{y}_t$. Further details of MARSS models can be found in the [MARSS user guide](https://cran.r-project.org/web/packages/MARSS/vignettes/UserGuide.pdf).
+
+* We set $\textbf{y}_{1,t}$ and $\textbf{y}_{3,t}$ to be the estimates of hatchery and wild spawners using the most updated methods, while $\textbf{y}_{2,t}$ and $\textbf{y}_{4,t}$ are the vector of estimates of hatchery and wild spawners using the older method. 
+
+* We fixed the first and third element of $\textbf{a}$ to be 0, to ensure there was no offset between the updated estimates and the MARSS model states (The second and fourth element of $\textbf{a}$ was estimated, as the average multiplicative offset between the older time-series and the true states). 
+
+* We set $\textbf{B}$ to be the identity matrix
+
+* We tested setting $\textbf{u}$ to 0, the equivalent of a random walk model, and allowing it be estimated, the equivalent of a random walk with drift or trend model. 
+
+* The other element we wanted to feed _a priori_ into the MARSS framework was the observation error variance, based on the estimated standard errors in the updated estimates. Because the model is set in log-space, we transformed the estimated standard errors by calculating the coefficient of variation, adding 1, logging that value and then calculating the square root. We then took the mean of the log-space standard errors before squaring it. These two values for hatchery and wild observation error were set as the first and third term along the diagonal of the $\textbf{R}$ matrix, while the off-diagonals were set to 0 and the observation variance of the older methods was left for the MARSS model to estimate.
+
+* Because hatchery and natural origin returns may be correlated to other dam counts, we compiled time-series of counts from several other Columbia River dams: `r paste(sort(unique(dam_cnts$dam))[-n_distinct(dam_cnts$dam)], collapse = ", ")` and `r sort(unique(dam_cnts$dam))[n_distinct(dam_cnts$dam)]` dams. These were treated as separate states in the MARSS framework, each with a single observation. For all dams, counts were summed from June 1 the year prior to May 31 of that spawn year. These counts are plotted in Figure \@ref(fig:dam-ts).
+
+* We also compiled one more possible input, hatchery releases of smolts. We hypothesized that the hatchery release numbers from previous years might inform the predicted returns of adults. We used the weighted average of salt age 1 and salt age 2 releases, weighted 70% towards salt age 1 and 30% towards salt age 2 based on average age composition data. Salt age 1 fish returned 2 years after their release, while salt age 2 fish returned after 3 years. This time-series extended back to `r min(release_ts$year)` and was normalized to have a mean of zero and standard deviation of one. This was treated as a possible covariate for the estimated state of hatchery spawners. This time series is shown in Figure \@ref(fig:smolt-ts).
+
+* We tested several configurations of this model:
+  1. Treated all states (Wenatchee hatchery and wild spawners, and other dam counts) as independent, by setting the off-diagonal terms of $\textbf{Q}$ to 0. (`Q = "diagonal and unequal`)
+  1. Similar to (1), but allowed for the process errors of Wenatchee hatchery and wild spawners to co-vary by estimating a single off-diagonal element of $\textbf{Q}$. 
+  1. Allowed the process errors to co-vary across all states, and estimated their covariance as the off-diagonal term of $\textbf{Q}$. (`Q = "unconstrained`)
+  1. Same as (1), but included a covariate of hatchery smolt releases to inform hatchery returns.
+  1. Same as (2), but included a covariate of hatchery smolt releases to inform hatchery returns.
+  1. Same as (3), but included a covariate of hatchery smolt releases to inform hatchery returns.
+  7-12. Same as above, but included a possible trend (`U = "unequal"`).
+
+Models 1, 2, 4 and 5 essentially ignore the dam counts when it comes to fitting and predicting for the Wenatchee states. Models 1 and 4 treat hatchery and wild spawners as independent time-series which is the equivalent of fitting separate models for wild and hatchery spawners.
+
+* All models were compared with AICc. 
+
+* All models were fit using the `MARSS` package in R.
+
+```{r dam-ts, fig.cap = "Time-series of counts from various Columbia River dams, from June 1 the year prior to May 31 of that spawn year."}
+dam_cnts %>%
+  ggplot(aes(x = year,
+             y = win_cnt)) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ dam,
+             scales = "free_y") +
+  labs(x = "Spawn Year",
+       y = "Total Steelhead Dam Count")
+
+```
+
+
+```{r smolt-ts, fig.height=4, fig.cap = "Time-series of normalized weighted average of smolt releases prior to the spawn year (x-axis). Dotted line shows when the new time-series begins."}
+ggplot(release_ts,
+       aes(x = year,
+           y = scale(log(est)))) +
+  geom_point(size = 2) +
+  geom_line() +
+  geom_vline(xintercept = min(ts_df$year[ts_df$method == "new"]),
+             linetype = 3) +
+  labs(x = "Spawn Year",
+       y = "Weighted average of prior smolt releases")
+```
+
+
+```{r marss}
+library(MARSS)
+
+marss_df <- ts_df %>%
+  pivot_wider(names_from = c(method, origin),
+              values_from = c(est, se)) %>%
+  select(year, starts_with("est_")) %>%
+  left_join(dam_cnts %>%
+              select(-dam) %>%
+              pivot_wider(names_from = dam_code,
+                          values_from = win_cnt)) %>%
+  select(contains("new"),
+         contains("old"),
+         everything()) %>%
+  select(ends_with("hor"),
+         everything()) %>%
+  select(-year) %>%
+  mutate(across(everything(),
+                log)) %>%
+  as.matrix() %>%
+  t()
+
+# pull together observation error values from new time-series
+r_sig_vec <- ts_df %>%
+  filter(method == "new") %>%
+  mutate(cv = se / est,
+         r_sig = sqrt(log(cv + 1))) %>%
+  group_by(origin) %>%
+  summarize(across(r_sig,
+                   mean),
+            .groups = "drop") %>%
+  mutate(across(r_sig,
+                raise_to_power,
+                2)) %>%
+  pivot_wider(names_from = "origin",
+              values_from = "r_sig") %>%
+  as_vector()
+
+
+# construct some MARSS constraints
+R_mat = matrix(list(0),
+               9, 9)
+diag(R_mat) = list(r_sig_vec["hor"],
+                   "r_old_hor",
+                   r_sig_vec["nor"],
+                   "r_old_nor",
+                   "r_bon",
+                   "r_ihr",
+                   "r_mcn",
+                   "r_pro",
+                   "r_ris")
+
+# set up Q matrix to be diagonal and unequal, except Wenatchee hor & nor can co-vary
+Q_ind = matrix(list(0), 7, 7)
+diag(Q_ind) = c("q_hor",
+                "q_nor",
+                paste0("q_", str_to_lower(rownames(marss_df)[-c(1:4)])))
+Q_ind[1,2] = Q_ind[2,1] = "q_hw"
+
+# create lists of inputs to various models
+model_list1 <- list(B = "identity",
+                    Z = factor(c(1, 1, 2, 2, 3:(2 + n_distinct(dam_cnts$dam_code)))),
+                    A = matrix(c(list(0, "a_old_hor", 0, "a_old_nor"),
+                                 as.list(rep(0, n_distinct(dam_cnts$dam_code)))), 
+                               4 + n_distinct(dam_cnts$dam_code), 
+                               1),
+                    U = "zero",
+                    R = R_mat,
+                    Q = "diagonal and unequal")
+model_list2 <- model_list1
+model_list2$Q = Q_ind
+model_list3 <- model_list1
+model_list3$Q = "unconstrained"
+
+#include smolt releases as covariate for hatchery spawners
+model_list4 <- model_list1
+model_list4$c = matrix(scale(log(release_ts$est)),
+                       nrow = 1)
+model_list4$C = matrix(c(list("C_hor"), as.list(rep(0, nlevels(model_list1$Z) - 1))),
+                       ncol = 1)
+model_list5 <- model_list4
+model_list5$Q = Q_ind
+model_list6 <- model_list4
+model_list6$Q = "unconstrained"
+
+# add a trend parameter
+model_list7 = model_list1
+model_list7$U = "unequal"
+model_list8 = model_list2
+model_list8$U = "unequal"
+model_list9 = model_list3
+model_list9$U = "unequal"
+
+model_list10 = model_list4
+model_list10$U = "unequal"
+model_list11 = model_list5
+model_list11$U = "unequal"
+model_list12 = model_list6
+model_list12$U = "unequal"
+
+# fit all models
+mod_fit_df <- tibble(
+  model_num = 1:12,
+  descrp = c("Q diag and unequal, no covariates",
+             "Q mostly independent, no covariates",
+             "Q unconstrained, no covariates",
+             "Q diag and unequal, smolt covariate",
+             "Q mostly independent, smolt covariate",
+             "Q unconstrained, smolt covariate",
+             "Q diag and unequal, no covariates, U unequal",
+             "Q mostly independent, no covariates, U unequal",
+             "Q unconstrained, no covariates, U unequal",
+             "Q diag and unequal, smolt covariate, U unequal",
+             "Q mostly independent, smolt covariate, U unequal",
+             "Q unconstrained, smolt covariate, U unequal"),
+  mod_list = list(model_list1,
+                  model_list2,
+                  model_list3,
+                  model_list4,
+                  model_list5,
+                  model_list6,
+                  model_list7,
+                  model_list8,
+                  model_list9,
+                  model_list10,
+                  model_list11,
+                  model_list12)) %>%
+  mutate(mod_fit_ls = map(mod_list,
+                          .f = quietly(function(x) {
+                            try(MARSS(marss_df,
+                                      model = x))
+                          })),
+         mod_fit = map(mod_fit_ls,
+                       "result")
+  )
+
+
+aicc_tab <- mod_fit_df %>%
+  mutate(n_params = map_dbl(mod_fit,
+                            "num.params"),
+         log_lik = map_dbl(mod_fit,
+                           "logLik"),
+         AICc = map_dbl(mod_fit,
+                        "AICc"),
+         delta_AICc = AICc - min(AICc)) %>%
+  select(-starts_with("mod_")) %>%
+  arrange(delta_AICc)
+
+```
+
+```{r predictions}
+# make predictions for Wenatchee spawners (H/W)
+pred_ls <- mod_fit_df %>%
+  select(model_num,
+         mod_fit) %>%
+  mutate(preds = map(mod_fit,
+                     .f = function(x) {
+                       as_tibble(t(x$states)) %>%
+                         select(mu_hor = `1`,
+                                mu_nor = `2`) %>%
+                         add_column(year = unique(ts_df$year),
+                                    .before = 0) %>%
+                         bind_cols(as_tibble(t(x$states.se)) %>%
+                                     select(sig_hor = `1`,
+                                            sig_nor = `2`)) %>%
+                         pivot_longer(c(starts_with("mu"),
+                                        starts_with("sig"))) %>%
+                         mutate(type = str_split(name, "_", simplify = T)[,1],
+                                origin = str_split(name, "_", simplify = T)[,2]) %>%
+                         select(-name) %>%
+                         pivot_wider(names_from = type) %>%
+                         mutate(lci = qnorm(0.025, mu, sig),
+                                uci = qnorm(0.975, mu, sig)) %>%
+                         rowwise() %>%
+                         mutate(sig2 = sig^2) %>%
+                         mutate(mean_x = exp(mu + 0.5 * sig2),
+                                med_x = exp(mu),
+                                mode_x = exp(mu - sig2),
+                                var_x = exp(2*mu + sig2) * (exp(sig2) - 1),
+                                sd_x = sqrt(var_x)) %>%
+                         mutate(across(c(lci, uci),
+                                       exp)) %>%
+                         ungroup() %>%
+                         select(year, origin,
+                                pred = med_x, 
+                                se_pred = sd_x,
+                                lci, uci) %>%
+                         mutate(cv_pred = se_pred / pred)
+                     }))
+
+# pred_ls %>%
+#   select(-mod_fit) %>%
+#   unnest(preds) %>%
+#   ggplot(aes(x = year,
+#              y = pred,
+#              color = as_factor(model_num),
+#              fill = as_factor(model_num))) +
+#   scale_color_brewer(palette = "Set2",
+#                      name = "Model") +
+#   scale_fill_brewer(palette = "Set2",
+#                      name = "Model") +
+#   # geom_ribbon(aes(ymin = lci,
+#   #                 ymax = uci),
+#   #             color = NA,
+#   #             alpha = 0.1) +
+#   geom_line() +
+#   geom_point() +
+#   facet_wrap(~ origin,
+#              ncol = 1,
+#              scales = "free_y")
+
+pred_df <- pred_ls %>%
+  filter(model_num == aicc_tab$model_num[aicc_tab$delta_AICc == 0]) %>%
+  select(-mod_fit) %>%
+  unnest(preds)
+
+# add observed values
+plot_df <- ts_df %>%
+  pivot_wider(names_from = method,
+              values_from = c(est, se)) %>%
+  # bind_rows(release_ts %>%
+  #             select(-origin) %>%
+  #             rename(origin = method,
+  #                    est_old = est)) %>%
+  ungroup() %>%
+  left_join(pred_df) %>%
+  arrange(year, origin)
+
+```
+
+
+
+### MARSS Results
+
+```{r aicc-tab}
+aicc_tab %>%
+  rename(`Model Num.` = model_num,
+         Description = descrp,
+         `n Params` = n_params,
+         LogLik = log_lik,
+         `delta AICc` = delta_AICc) %>%
+  kable(digits = 1,
+        booktabs = T,
+        linesep = "",
+        caption = "AICc values for all models.") %>%
+  kable_styling(latex_options = c("striped"))
+
+```
+
+The results (Table \@ref(tab:aicc-tab)) show the third model to be best supported by the data. This model allows for correlated process errors between hatchery and natural spawners and various dam counts. The second best model by AICc was model 6, which was identical to model 3 but also included a covariate of previous smolt releases to help predict hatchery spawners. 
+
+```{r q-mat}
+q_est = matrix(0,
+               nrow = 7,
+               ncol = 7,
+               dimnames = list(c(
+                 "Wen. Hatch",
+                 "Wen. Wild",
+                 rownames(marss_df)[-c(1:4)]
+               ),
+               c(
+                 "Wen. Hatch",
+                 "Wen. Wild",
+                 rownames(marss_df)[-c(1:4)]
+               )))
+q_est[lower.tri(q_est, diag = T)] = mod_fit_df$mod_fit[[3]]$par$Q
+q_est[upper.tri(q_est)] = t(q_est)[upper.tri(t(q_est))]
+
+q_est %>%
+  kable(digits = 3,
+        booktabs = T,
+        linesep = "",
+        caption = "Estimates of Q matrix from model 3, showing variance and co-variance estimates.") %>%
+  kable_styling(latex_options = c("striped")) %>%
+  column_spec(1, bold = T)
+```
+
+```{r mod-coef}
+mod_fit_df %>%
+  left_join(aicc_tab %>%
+              select(model_num, delta_AICc)) %>%
+  arrange(delta_AICc) %>%
+  slice(1) %>%
+  pull(mod_fit) %>%
+  extract2(1) %>%
+  broom::tidy() %>%
+  as_tibble() %>%
+  filter(str_detect(term, "_nor") |
+           str_detect(term, "_hor")) %>%
+  kable(digits = 3,
+        booktabs = T,
+        linesep = "",
+        caption = "Estimates of selected parameters from the best model.") %>%
+  kable_styling(latex_options = c("striped")) %>%
+  column_spec(1, bold = T)
+```
+
+Table \@ref(tab:q-mat) shows the estimates of the process error covariance matrix, $\textbf{Q}$. Table \@ref(tab:mod-coef) shows other parameter estimates from the selected model. 
+<!-- Interestingly, the effect of previous smolt releases was slightly negative, implying that if smolt releases increased, that would have a negative effect on hatchery spawners in the future.   -->
+
+Figure \@ref(fig:comp-preds) compares the predictions of hatchery spawners from a model that does not use smolt releases as a covariate and one that does, although both have unconstrained $\textbf{Q}$ matrices. (models 2 and 4). Predictions are greater for the model with a smolt release covariate, but only in the earlier years. 
+
+```{r comp-preds, fig.cap = "Comparison of predicted states of hatchery spawners for a model with no smolt release covariate (x-axis) and one that includes that covariate (y-axis). The period refers to whether the new time-series estimates exist."}
+pred_ls %>%
+  filter(model_num %in% c(3, 6)) %>%
+  select(-mod_fit) %>%
+  unnest(preds) %>%
+  filter(origin == "hor") %>%
+  mutate(mod_type = if_else(model_num == min(model_num),
+                            "mu",
+                            "mu_smolt"),
+         ts_period = if_else(year < 2004,
+                          "Old",
+                          "New")) %>%
+  select(mod_type,
+         ts_period,
+         year,
+         pred) %>%
+  pivot_wider(names_from = mod_type,
+              values_from = pred) %>%
+  ggplot(aes(x = mu,
+             y = mu_smolt,
+             color = year)) +
+  geom_abline(linetype = 2,
+              color = "darkgray") +
+  geom_point(aes(shape = ts_period),
+             size = 2) +
+  scale_color_viridis_c(name = "Year") +
+  labs(x = "No Smolts",
+       y = "Smolts as covariates",
+       shape = "Period")
+
+
+```
+
+
+```{r}
+pred_p <- plot_df %>%
+  mutate(across(origin,
+                recode,
+                "hor" = "Hatchery",
+                "nor" = "Natural",
+                "smolts" = "Smolts")) %>%
+  filter(origin != "Smolts") %>%
+  ggplot(aes(x = year,
+             y = pred)) +
+  geom_ribbon(aes(ymin = lci,
+                  ymax = uci),
+              fill = "lightgray") +
+  geom_line(size = 1) +
+  geom_point(aes(y = est_old,
+                 color = "Old"),
+             shape = 17,
+             size = 2) +
+  geom_errorbar(aes(ymin = qnorm(0.025, est_new, se_new),
+                    ymax = qnorm(0.975, est_new, se_new),
+                    color = "New"),
+                width = 0) +
+  geom_point(aes(y = est_new,
+                 color = "New"),
+             size = 2) +
+  scale_color_brewer(palette = "Set1",
+                     name = "Method") +
+  facet_wrap(~ origin,
+             scales = "free_y",
+             ncol = 1) +
+  labs(x = "Year",
+       y = "Spawners")
+
+```
+
+```{r marss-p, fig.cap = "Estimates of spawners through the years, faceted by origin. Predicted spawners is the black line with 95% confidence interval in gray. Blue triangles depict estimates from the old time-series, while red points and 95% confidence intervals are from the new time-series."}
+pred_p
+```
+
+```{r marss-log-p, eval = F}
+pred_p +
+  scale_y_continuous(trans = "log",
+                     breaks = scales::pretty_breaks()) +
+  theme(axis.text.y = element_blank())
+```
+
+
+
+```{r}
+updated_ts <- plot_df %>%
+  mutate(est = if_else(is.na(est_new),
+                       pred,
+                       est_new),
+         se = if_else(is.na(se_new),
+                      se_pred,
+                      se_new)) %>%
+  rowwise() %>%
+  mutate(lci = if_else(is.na(est_new),
+                       lci,
+                       qnorm(0.025, est_new, se_new)),
+         uci = if_else(is.na(est_new),
+                       uci,
+                       qnorm(0.975, est_new, se_new))) %>%
+  ungroup() %>%
+  select(-contains("pred")) %>%
+  select(year, origin,
+         contains("old"),
+         contains("new"),
+         est, se,
+         lci, uci)
+
+pred_p2 <- updated_ts %>%
+  mutate(across(origin,
+                recode,
+                "hor" = "Hatchery",
+                "nor" = "Natural")) %>%
+  ggplot(aes(x = year,
+             y = est,
+             color = origin,
+             fill = origin)) +
+  geom_ribbon(aes(ymin = lci,
+                  ymax = uci),
+              color = NA,
+              alpha = 0.2) +
+  geom_line() +
+  geom_point(size = 2) +
+  scale_color_viridis_d(end = 0.75,
+                        name = "Origin") +
+  scale_fill_viridis_d(end = 0.75,
+                       name = "Origin") +
+  # scale_color_brewer(palette = "Dark2",
+  #                    name = "Origin") +
+  # scale_fill_brewer(palette = "Dark2",
+  #                   name = "Origin") +
+  geom_vline(xintercept = min(new_ts$year) - 0.5,
+             linetype = 2) +
+  theme(legend.position = "bottom") +
+  labs(x = "Year",
+       y = "Spawner Estimate")
+```
+
+```{r marss-p2, fig.cap = "Updated estimates of spawners through the years, colored by origin, showing point estimates and 95% confidence intervals. Dashed vertical line differentiates older and newer time-series."}
+pred_p2
+```
+
+```{r phos-est, fig.cap = "Estimates of pHOS based on the updated time-series, showing 95% confidence intervals. Dashed vertical line differentiates older and newer time-series."}
+updated_ts %>%
+  select(year, origin,
+         est, se) %>%
+  pivot_wider(names_from = origin,
+              values_from = c(est, se),
+              names_glue = "{origin}_{.value}") %>%
+  rowwise() %>%
+  mutate(phos = hor_est / (hor_est + nor_est),
+         phos_se = deltamethod(~ x1 / (x1 + x2),
+                               mean = c(hor_est,
+                                        nor_est),
+                               cov = diag(c(hor_se,
+                                            nor_se)^2))) %>%
+  mutate(lci = qnorm(0.025,
+                     phos,
+                     phos_se),
+         uci = qnorm(0.975,
+                     phos,
+                     phos_se)) %>%
+  ungroup() %>%
+  ggplot(aes(x = year,
+             y = phos)) +
+  geom_ribbon(aes(ymin = lci,
+                  max = uci),
+              alpha = 0.3) +
+  geom_line() +
+  geom_point(size = 3) +
+  geom_vline(xintercept = min(new_ts$year) - 0.5,
+             linetype = 2) +
+  labs(x = "Year",
+       y = "pHOS")
+```
+
+
+```{r save-csv}
+updated_ts %>%
+  mutate(across(contains("est"),
+                round_half_up),
+         across(c(starts_with("se"),
+                  contains("ci")),
+                round,
+                1)) %>%
+  write_csv(here("analysis/data/derived_data",
+                 "Wenatchee_Updated_Sthd_TimeSeries.csv"))
+```
+
+# Conclusions
+
+The MARSS framework appear to fit the data better than the linear regression for several reasons, so we chose to use that. First, there does not appear to be a consistent additive or multiplicative bias between the two time-series. Second, a MARSS model is explicitly a time-series model, which is appropriate for this comparison. Finally, the MARSS framework allowed us to test a variety of model structures, including bringing in other time-series and covariates. AICc supported a model that included several time-series of various dam counts, with correlated process errors (true year-to-year variability), including a positive correlation between hatchery and natural origin spawners. This positive correlation could reflect the impacts of shared ocean conditions. There was slightly less support for the same model that also included a covariate of weighted average of previous smolt releases to for the hatchery returns (but not natural origin returns). Because the coefficient of that covariate was negative, with confidence intervals that overlapped 0, and because including smolt releases had very little effect on spawner estimates (Figure \@ref(fig:comp-preds)), we decided against using that model and chose the one with the lowest AICc score.
+
+Table \@ref(tab:ts-tab) shows the updated time-series, including a brief description of the method used to generate the estimate each year.
+
+```{r ts-tab}
+updated_ts %>%
+  mutate(method = if_else(year < 2004,
+                          "MARSS",
+                          if_else(between(year, 2004, 2010),
+                                  "1 Obs. Model & Expansion",
+                                  if_else(between(year, 2011, 2013),
+                                          "1 Obs. Model & DABOM",
+                                          "2 Obs. Model & DABOM")))) %>%
+  mutate(across(origin,
+                recode,
+                "nor" = "Natural",
+                "hor" = "Hatchery")) %>%
+  select(year, origin,
+         method,
+         est:uci) %>%
+  mutate(across(year,
+                as_factor)) %>%
+  clean_names("title") %>%
+  rename(Estimate = Est,
+         SE = Se,
+         LCI = Lci,
+         UCI = Uci) %>%
+  mutate(across(c(contains("est"),
+                  ends_with("CI")),
+                round_half_up)) %>%
+  kable(digits = 1,
+        booktabs = T,
+        linesep = "",
+        longtable = T,
+        caption = "Updated time-series of steelhead spawners in the Wenatchee, by origin.",
+        format.args = list(big.mark = ",")) %>%
+  kable_styling(latex_options = c("striped",
+                                  "repeat_header"))
+```
+
+
+
+# References

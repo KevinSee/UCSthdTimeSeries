@@ -1,7 +1,7 @@
 # Author: Kevin See
 # Purpose: Prep redd data from 2004-2013
 # Created: 6/9/22
-# Last Modified: 1/3/23
+# Last Modified: 1/5/23
 # Notes: this data is from the Wenatchee
 
 # How to account for the fact that non-index reaches have a peak count,
@@ -613,7 +613,8 @@ index_redd_results %>%
 
 # think about a threshold for net error we don't want to go below
 min(one_obs_original_data$NetError)
-hist(one_obs_original_data$NetError)
+hist(one_obs_original_data$NetError,
+     breaks = 20)
 
 one_obs_original_data %>%
   arrange(NetError) %>%

@@ -1103,7 +1103,18 @@ updated_ts %>%
 
 The MARSS framework appear to fit the data better than the linear regression for several reasons, so we chose to use that. First, there does not appear to be a consistent additive or multiplicative bias between the two time-series. Second, a MARSS model is explicitly a time-series model, which is appropriate for this comparison. Finally, the MARSS framework allowed us to test a variety of model structures, including bringing in other time-series and covariates. AICc supported a model that included several time-series of various dam counts, with correlated process errors (true year-to-year variability), including a positive correlation between hatchery and natural origin spawners. This positive correlation could reflect the impacts of shared ocean conditions. There was slightly less support for the same model that also included a covariate of weighted average of previous smolt releases to for the hatchery returns (but not natural origin returns). Because the coefficient of that covariate was negative, with confidence intervals that overlapped 0, and because including smolt releases had very little effect on spawner estimates (Figure \@ref(fig:comp-preds)), we decided against using that model and chose the one with the lowest AICc score.
 
-Table \@ref(tab:ts-tab) shows the updated time-series, including a brief description of the method used to generate the estimate each year.
+Table \@ref(tab:ts-tab) in Appendix \@ref(appendA) shows the updated time-series, including a brief description of the method used to generate the estimate each year.
+
+
+# References
+<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
+<div id="refs"></div>
+
+\newpage
+
+# (APPENDIX) Appendices {-}
+
+# Updated Time Series {#appendA}
 
 ```{r ts-tab}
 updated_ts %>%
@@ -1140,7 +1151,3 @@ updated_ts %>%
   kable_styling(latex_options = c("striped",
                                   "repeat_header"))
 ```
-
-
-
-# References

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.12.23)  5 JAN 2023 15:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.9)  10 JAN 2023 11:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -697,117 +697,117 @@ Overfull \hbox (20.10587pt too wide) in paragraph at lines 276--294
 
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 335.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 337.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [8
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.335 F
+l.337 F
        igure \ref{fig:comp-preds} compares the predictions of hatchery spawn... <../figures/dam-ts-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 335.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 337.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.335 F
+l.337 F
        igure \ref{fig:comp-preds} compares the predictions of hatchery spawn...
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.335 F
+l.337 F
        igure \ref{fig:comp-preds} compares the predictions of hatchery spawn... <../figures/smolt-ts-1.pdf>]
 <../figures/comp-preds-1.pdf, id=182, 433.62pt x 361.35pt>
 File: ../figures/comp-preds-1.pdf Graphic file (type pdf)
 <use ../figures/comp-preds-1.pdf>
-Package pdftex.def Info: ../figures/comp-preds-1.pdf  used on input line 339.
+Package pdftex.def Info: ../figures/comp-preds-1.pdf  used on input line 341.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
 <../figures/marss-p-1.pdf, id=183, 433.62pt x 361.35pt>
 File: ../figures/marss-p-1.pdf Graphic file (type pdf)
 <use ../figures/marss-p-1.pdf>
-Package pdftex.def Info: ../figures/marss-p-1.pdf  used on input line 345.
+Package pdftex.def Info: ../figures/marss-p-1.pdf  used on input line 347.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
 <../figures/marss-p2-1.pdf, id=184, 433.62pt x 361.35pt>
 File: ../figures/marss-p2-1.pdf Graphic file (type pdf)
 <use ../figures/marss-p2-1.pdf>
-Package pdftex.def Info: ../figures/marss-p2-1.pdf  used on input line 351.
+Package pdftex.def Info: ../figures/marss-p2-1.pdf  used on input line 353.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
 <../figures/phos-est-1.pdf, id=185, 433.62pt x 361.35pt>
 File: ../figures/phos-est-1.pdf Graphic file (type pdf)
 <use ../figures/phos-est-1.pdf>
-Package pdftex.def Info: ../figures/phos-est-1.pdf  used on input line 357.
+Package pdftex.def Info: ../figures/phos-est-1.pdf  used on input line 359.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 379.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 378.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [10
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.379 \leavevmode
-                 \vadjust pre{\hypertarget{ref-Murdoch2018}{}}%
+l.378 \leavevmode
+                 \vadjust pre{\hypertarget{ref-MARSS2012}{}}%
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.379 \leavevmode
-                 \vadjust pre{\hypertarget{ref-Murdoch2018}{}}%]
+l.378 \leavevmode
+                 \vadjust pre{\hypertarget{ref-MARSS2012}{}}%]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 379.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 378.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.379 \leavevmode
-                 \vadjust pre{\hypertarget{ref-Murdoch2018}{}}% <../figures/comp-preds-1.pdf>]
+l.378 \leavevmode
+                 \vadjust pre{\hypertarget{ref-MARSS2012}{}}% <../figures/comp-preds-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 379.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 378.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.379 \leavevmode
-                 \vadjust pre{\hypertarget{ref-Murdoch2018}{}}% <../figures/marss-p-1.pdf>]
+l.378 \leavevmode
+                 \vadjust pre{\hypertarget{ref-MARSS2012}{}}% <../figures/marss-p-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 379.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 378.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [13
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.379 \leavevmode
-                 \vadjust pre{\hypertarget{ref-Murdoch2018}{}}% <../figures/marss-p2-1.pdf>]
+l.378 \leavevmode
+                 \vadjust pre{\hypertarget{ref-MARSS2012}{}}% <../figures/marss-p2-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 379.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 378.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [14
 pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.379 \leavevmode
-                 \vadjust pre{\hypertarget{ref-Murdoch2018}{}}% <../figures/phos-est-1.pdf>]
+l.378 \leavevmode
+                 \vadjust pre{\hypertarget{ref-MARSS2012}{}}% <../figures/phos-est-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 390.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 392.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [15]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 486.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 488.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [16]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 488.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 490.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [17] (./crosswalk.aux)
 
@@ -818,14 +818,14 @@ Package rerunfilecheck Info: File `crosswalk.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  13152 strings out of 478053
- 210517 string characters out of 5839061
+ 210517 string characters out of 5839063
  1912787 words of memory out of 5000000
  32937 multiletter control sequences out of 15000+600000
  577569 words of font info for 79 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  72i,17n,77p,1289b,638s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}<c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on crosswalk.pdf (17 pages, 415052 bytes).
+Output written on crosswalk.pdf (17 pages, 414999 bytes).
 PDF statistics:
  349 PDF objects out of 1000 (max. 8388607)
  273 compressed objects within 3 object streams

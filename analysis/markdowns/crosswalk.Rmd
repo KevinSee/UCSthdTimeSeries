@@ -10,17 +10,6 @@ institute:
   - wdfw: Washington Department of Fish & Wildlife
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
-    bookdown::pdf_document2:
-      fig_caption: yes
-      fig_height: 5
-      fig_width: 6
-      toc: yes
-      includes:
-        in_header: ../templates/header_wdfw.tex
-      pandoc_args:
-      - --lua-filter=../templates/scholarly-metadata.lua
-      - --lua-filter=../templates/author-info-blocks2.lua
-      - --lua-filter=../templates/pagebreak.lua
     wdfwTemplates::wdfw_html_format2:
       fig_caption: yes
       fig_height: 5
@@ -33,6 +22,17 @@ output:
       pandoc_args:
       - --lua-filter=../templates/scholarly-metadata.lua
       - --lua-filter=../templates/author-info-blocks.lua
+      - --lua-filter=../templates/pagebreak.lua
+    bookdown::pdf_document2:
+      fig_caption: yes
+      fig_height: 5
+      fig_width: 6
+      toc: yes
+      includes:
+        in_header: ../templates/header_wdfw.tex
+      pandoc_args:
+      - --lua-filter=../templates/scholarly-metadata.lua
+      - --lua-filter=../templates/author-info-blocks2.lua
       - --lua-filter=../templates/pagebreak.lua
     bookdown::html_document2:
       fig_caption: yes
@@ -634,19 +634,37 @@ marss_df <- ts_df %>%
   t()
 
 # pull together observation error values from new time-series
-r_sig_vec <- ts_df %>%
+r_sig_df <- ts_df %>%
   filter(method == "new") %>%
   mutate(cv = se / est,
          r_sig = sqrt(log(cv + 1))) %>%
   group_by(origin) %>%
-  summarize(across(r_sig,
-                   mean),
-            .groups = "drop") %>%
-  mutate(across(r_sig,
+  summarize(n_yrs = n_distinct(year),
+            across(r_sig,
+                   list(mean = mean,
+                        sd = sd)),
+            .groups = "drop")
+
+new_ts_R <- r_sig_df %>%
+  mutate(term = paste0("R.r_new_", origin)) %>%
+  relocate(term, .before = 1) %>%
+  select(-origin) %>%
+  rename(estimate = r_sig_mean,
+         std.error = r_sig_sd) %>%
+  mutate(across(estimate,
                 raise_to_power,
                 2)) %>%
-  pivot_wider(names_from = "origin",
-              values_from = "r_sig") %>%
+  mutate(conf.low = (estimate * (n_yrs - 1)) / qchisq(0.975, df = n_yrs - 1),
+         conf.up = (estimate * (n_yrs - 1)) / qchisq(0.025, df = n_yrs - 1)) %>%
+  select(-n_yrs)
+
+r_sig_vec <- new_ts_R %>%
+  select(term, estimate) %>%
+  mutate(across(term,
+                str_remove,
+                "R.r_new_")) %>%
+  pivot_wider(names_from = "term",
+              values_from = "estimate") %>%
   as_vector()
 
 
@@ -900,12 +918,15 @@ mod_fit_df %>%
   as_tibble() %>%
   filter(str_detect(term, "_nor") |
            str_detect(term, "_hor")) %>%
+  bind_rows(new_ts_R) %>%
   kable(digits = 3,
         booktabs = T,
+        # escape = F,
         linesep = "",
-        caption = "Estimates of selected parameters from the best model.") %>%
+        caption = 'Estimates of selected parameters from the best model. Terms containing "new" were inputs to the model, derived from the new time-series estimates.') %>%
   kable_styling(latex_options = c("striped")) %>%
   column_spec(1, bold = T)
+
 ```
 
 Table \@ref(tab:q-mat) shows the estimates of the process error covariance matrix, $\textbf{Q}$. Table \@ref(tab:mod-coef) shows other parameter estimates from the selected model. 

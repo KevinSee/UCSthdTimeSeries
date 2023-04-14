@@ -757,6 +757,39 @@ index_redd_results <- index_redd_results %>%
               mutate(borrow_NE = T)) %>%
   arrange(year, river, index_reach)
 
+
+#-----------------------------------------------------------------
+# any reaches with an overly large expansion factor?
+suspect_rchs <- index_redd_results %>%
+  mutate(expn = redd_est / tot_feat,
+         expn2 = redd_est / (tot_feat / err_est)) %>%
+  # qplot(expn, err_est, data = .)
+  filter(expn > 4 |
+           expn2 > 1.5)
+
+suspect_rchs %>%
+  select(-c(data, gauc_list))
+
+
+suspect_rchs %>%
+  select(year:data) %>%
+  unnest(data) %>%
+  select(year,
+         index_reach, date, NetError,
+         redds, visible_redds) %>%
+  mutate(jday = yday(date)) %>%
+  ggplot(aes(x = jday,
+             y = redds)) +
+  geom_point() +
+  facet_wrap(~ index_reach + year) +
+  theme_bw() #+
+  stat_smooth(method = 'glm',
+              formula = y ~ x + I(x^2),
+              method.args = list(family = quasipoisson),
+              fullrange = T,
+              se = F)
+
+
 #-----------------------------------------------------------------
 # which non-index reaches don't have an index reach associated with them?
 non_index_rch %>%
@@ -1628,6 +1661,8 @@ new_ts %>%
          nor_se = Natural_SE,
          hor_spwn = Hatchery,
          hor_se = Hatchery_SE) %>%
+  mutate(across(ends_with("spwn"),
+                round_half_up)) %>%
   select(year,
          hor_spwn, nor_spwn,
          hor_se, nor_se) %>%
@@ -1640,29 +1675,36 @@ new_ts %>%
 
 
 #----------------------------------------------------
-# examine 2009, why the big spike in SE?
+# examine reachs with MUCH larger estimates than counted redds
 #----------------------------------------------------
-all_redds %>%
-  filter(year == 2009,
-         redd_est > obs_redds * 5) %>%
+weird_rch <- all_redds %>%
+  filter(redd_est > obs_redds * 5) %>%
   mutate(expn = redd_est / obs_redds) %>%
   select(year,
          river,
-         non_index_reach = reach) %>%
-  left_join(non_index_redds) %>%
-  mutate(ni_jday = yday(date)) %>%
-  select(year:index_reach,
-         ni_jday,
-         redd_est,
-         ind_redd_est,
-         new_b0, b1, b2,
-         vis_redd_data) %>%
-  unnest(vis_redd_data) %>%
+         type,
+         reach,
+         paired_reach,
+         expn)
+
+
+weird_rch %>%
+  mutate(index_reach = if_else(!is.na(paired_reach),
+                               paired_reach,
+                               reach)) %>%
+  left_join(all_redds)
+
+weird_rch
+
+weird_rch %>%
+  rename(index_reach = reach) %>%
+  left_join(index_redds) %>%
+  mutate(day = as.integer(1:n())) %>%
   ggplot(aes(x = day,
-             y = vis_redds)) +
+             y = redds)) +
   geom_point() +
   # geom_line() +
-  facet_wrap(~ non_index_reach + year,
+  facet_wrap(~ index_reach + year,
              scales = "free_y") +
   theme_bw() +
   stat_smooth(method = 'glm',
@@ -1670,26 +1712,44 @@ all_redds %>%
               method.args = list(family = quasipoisson),
               fullrange = T,
               se = F) +
-  geom_vline(aes(xintercept = ni_jday),
-             linetype = 2) +
-  geom_point(aes(x = ni_jday,
-                 y = redds),
-             shape = 17,
-             color = "red")
+  labs(x = "Survey Number")
+
+mod_df <- weird_rch %>%
+  rename(index_reach = reach) %>%
+  left_join(index_redds) %>%
+  mutate(day = 1:n()) %>%
+  select(day,
+         redds)
+
+# if(mod_df$redds[mod_df$day == max(mod_df$day)] != 0) {
+  mod_df <- mod_df %>%
+    bind_rows(tibble(redds = 0,
+                     day = max(mod_df$day) + 1)) %>%
+    arrange(day)
+# }
+
+ggplot(mod_df,
+       aes(x = day,
+           y = redds)) +
+  geom_point() +
+  # geom_line() +
+  theme_bw() +
+  stat_smooth(method = 'glm',
+              formula = y ~ x + I(x^2),
+              method.args = list(family = quasipoisson),
+              fullrange = T,
+              se = F) +
+  labs(x = "Survey Number")
 
 
-weird_rch <- all_redds %>%
-  filter(#year == 2009,
-         redd_est > obs_redds * 5) %>%
-  mutate(expn = redd_est / obs_redds) %>%
-  select(year,
-         river,
-         non_index_reach = reach)
+fit_gauc(data = mod_df,
+         v = 0.416,
+         v_se = 0.0337)$E
 
-weird_rch %>%
-  left_join(non_index_redds) %>%
-  slice(7) %>%
-  pull(vis_redd_data)
+# weird_rch %>%
+#   left_join(non_index_redds) %>%
+#   slice(7) %>%
+#   pull(vis_redd_data)
 
 weird_rch %>%
   left_join(non_index_redds) %>%

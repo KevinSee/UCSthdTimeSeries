@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.16)  14 APR 2023 13:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.2.16)  18 APR 2023 13:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -379,6 +379,10 @@ Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 \f@nch@O@erf=\skip72
 \f@nch@O@olf=\skip73
 \f@nch@O@orf=\skip74
+) (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/flafter.sty
+Package: flafter 2021/07/31 v1.4e Standard LaTeX floats after reference (FMi)
+Applying: [2015/01/01] float order in 2-column on input line 49.
+Already applied: [0000/00/00] float order in 2-column on input line 151.
 ) (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip75
@@ -478,37 +482,34 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 
 LaTeX Warning: Label `tab:ts-tab' multiply defined.
 
-
-LaTeX Warning: Label `tab:ts-tab' multiply defined.
-
 )
 \openout1 = `crosswalk.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 129.
-LaTeX Font Info:    ... okay on input line 129.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 129.
+Package hyperref Info: Link coloring OFF on input line 130.
 (./crosswalk.out) (./crosswalk.out)
 \@outlinefile=\write3
 \openout3 = `crosswalk.out'.
@@ -547,33 +548,33 @@ Package hyperref Info: Link coloring OFF on input line 129.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 131.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 132.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 131.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 132.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 131.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 132.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 131.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 132.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 131.
+(Font)              <12> on input line 132.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 131.
+(Font)              <8> on input line 132.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 131.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 131.
+(Font)              <6> on input line 132.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 132.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 131.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 132.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (./crosswalk.toc
@@ -587,251 +588,246 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@toc=\write4
 \openout4 = `crosswalk.toc'.
 
-<../templates/wdfwlogo_clr.png, id=41, 693.59125pt x 441.65pt>
+<../templates/wdfwlogo_clr.png, id=46, 693.59125pt x 441.65pt>
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 148.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 149.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [1
 
 {c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <../templates/wdfwlogo_clr.png>]
-<../figures/ts-fig-1.pdf, id=58, 433.62pt x 361.35pt>
+<../figures/ts-fig-1.pdf, id=63, 433.62pt x 361.35pt>
 File: ../figures/ts-fig-1.pdf Graphic file (type pdf)
 <use ../figures/ts-fig-1.pdf>
-Package pdftex.def Info: ../figures/ts-fig-1.pdf  used on input line 155.
+Package pdftex.def Info: ../figures/ts-fig-1.pdf  used on input line 156.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
-<../figures/xy-fig-1.pdf, id=59, 433.62pt x 289.08pt>
+<../figures/xy-fig-1.pdf, id=64, 433.62pt x 289.08pt>
 File: ../figures/xy-fig-1.pdf Graphic file (type pdf)
 <use ../figures/xy-fig-1.pdf>
-Package pdftex.def Info: ../figures/xy-fig-1.pdf  used on input line 161.
+Package pdftex.def Info: ../figures/xy-fig-1.pdf  used on input line 162.
 (pdftex.def)             Requested size: 433.63878pt x 289.09251pt.
-<../figures/xy-ll-fig-1.pdf, id=60, 433.62pt x 289.08pt>
+<../figures/xy-ll-fig-1.pdf, id=65, 433.62pt x 289.08pt>
 File: ../figures/xy-ll-fig-1.pdf Graphic file (type pdf)
 <use ../figures/xy-ll-fig-1.pdf>
-Package pdftex.def Info: ../figures/xy-ll-fig-1.pdf  used on input line 167.
+Package pdftex.def Info: ../figures/xy-ll-fig-1.pdf  used on input line 168.
 (pdftex.def)             Requested size: 433.63878pt x 289.09251pt.
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 178.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 179.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [2
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.178 
+l.179 
        <../figures/ts-fig-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 178.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 179.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [3
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.178 
+l.179 
        <../figures/xy-fig-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 178.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 179.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [4
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.178 
+l.179 
        <../figures/xy-ll-fig-1.pdf>]
-<../figures/lin-fit-1.pdf, id=98, 433.62pt x 361.35pt>
+<../figures/lin-fit-1.pdf, id=103, 433.62pt x 361.35pt>
 File: ../figures/lin-fit-1.pdf Graphic file (type pdf)
 <use ../figures/lin-fit-1.pdf>
-Package pdftex.def Info: ../figures/lin-fit-1.pdf  used on input line 181.
+Package pdftex.def Info: ../figures/lin-fit-1.pdf  used on input line 182.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
-<../figures/log-log-fig-1.pdf, id=99, 433.62pt x 361.35pt>
+<../figures/log-log-fig-1.pdf, id=104, 433.62pt x 361.35pt>
 File: ../figures/log-log-fig-1.pdf Graphic file (type pdf)
 <use ../figures/log-log-fig-1.pdf>
-Package pdftex.def Info: ../figures/log-log-fig-1.pdf  used on input line 187.
+Package pdftex.def Info: ../figures/log-log-fig-1.pdf  used on input line 188.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 200.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 201.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [5
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.200 
+l.201 
        <../figures/lin-fit-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 200.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 201.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [6
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.200 
+l.201 
        <../figures/log-log-fig-1.pdf>]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 213.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 214.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 233.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 234.
 (c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 235.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 236.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [7]
-<../figures/dam-ts-1.pdf, id=147, 433.62pt x 361.35pt>
+<../figures/dam-ts-1.pdf, id=152, 433.62pt x 361.35pt>
 File: ../figures/dam-ts-1.pdf Graphic file (type pdf)
 <use ../figures/dam-ts-1.pdf>
-Package pdftex.def Info: ../figures/dam-ts-1.pdf  used on input line 260.
+Package pdftex.def Info: ../figures/dam-ts-1.pdf  used on input line 261.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
-<../figures/smolt-ts-1.pdf, id=148, 433.62pt x 289.08pt>
+<../figures/smolt-ts-1.pdf, id=153, 433.62pt x 289.08pt>
 File: ../figures/smolt-ts-1.pdf Graphic file (type pdf)
 <use ../figures/smolt-ts-1.pdf>
-Package pdftex.def Info: ../figures/smolt-ts-1.pdf  used on input line 266.
+Package pdftex.def Info: ../figures/smolt-ts-1.pdf  used on input line 267.
 (pdftex.def)             Requested size: 433.63878pt x 289.09251pt.
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 296.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 297.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [8
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.296 \end{table}
+l.297 \end{table}
                   <../figures/dam-ts-1.pdf>]
-<../figures/comp-preds-1.pdf, id=173, 433.62pt x 361.35pt>
+<../figures/comp-preds-1.pdf, id=178, 433.62pt x 361.35pt>
 File: ../figures/comp-preds-1.pdf Graphic file (type pdf)
 <use ../figures/comp-preds-1.pdf>
-Package pdftex.def Info: ../figures/comp-preds-1.pdf  used on input line 343.
+Package pdftex.def Info: ../figures/comp-preds-1.pdf  used on input line 344.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
-<../figures/marss-p-1.pdf, id=174, 433.62pt x 361.35pt>
+<../figures/marss-p-1.pdf, id=179, 433.62pt x 361.35pt>
 File: ../figures/marss-p-1.pdf Graphic file (type pdf)
 <use ../figures/marss-p-1.pdf>
-Package pdftex.def Info: ../figures/marss-p-1.pdf  used on input line 349.
+Package pdftex.def Info: ../figures/marss-p-1.pdf  used on input line 350.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
-<../figures/marss-p2-1.pdf, id=175, 433.62pt x 361.35pt>
+<../figures/marss-p2-1.pdf, id=180, 433.62pt x 361.35pt>
 File: ../figures/marss-p2-1.pdf Graphic file (type pdf)
 <use ../figures/marss-p2-1.pdf>
-Package pdftex.def Info: ../figures/marss-p2-1.pdf  used on input line 355.
+Package pdftex.def Info: ../figures/marss-p2-1.pdf  used on input line 356.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
-<../figures/phos-est-1.pdf, id=176, 433.62pt x 361.35pt>
+<../figures/phos-est-1.pdf, id=181, 433.62pt x 361.35pt>
 File: ../figures/phos-est-1.pdf Graphic file (type pdf)
 <use ../figures/phos-est-1.pdf>
-Package pdftex.def Info: ../figures/phos-est-1.pdf  used on input line 361.
+Package pdftex.def Info: ../figures/phos-est-1.pdf  used on input line 362.
 (pdftex.def)             Requested size: 433.61894pt x 361.34912pt.
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 369.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 370.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
        <../figures/smolt-ts-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 369.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 370.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [10
 pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
       
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
       
 pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
       ]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 369.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 370.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
        <../figures/comp-preds-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 369.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 370.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [12
 pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
        <../figures/marss-p-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 369.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 370.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [13
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
        <../figures/marss-p2-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 369.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 370.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [14
 pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.369 
+l.370 
        <../figures/phos-est-1.pdf>]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 394.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 395.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [15]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 491.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 495.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
 [16]
 File: ../templates/wdfwlogo_clr.png Graphic file (type png)
 <use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 491.
+Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 497.
 (pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
-[17]
-File: ../templates/wdfwlogo_clr.png Graphic file (type png)
-<use ../templates/wdfwlogo_clr.png>
-Package pdftex.def Info: ../templates/wdfwlogo_clr.png  used on input line 493.
-(pdftex.def)             Requested size: 53.61517pt x 34.13991pt.
-[18] (./crosswalk.aux)
+[17] (./crosswalk.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `crosswalk.out' has not changed.
-(rerunfilecheck)             Checksum: B0A12C2E2ADAED3D9B751E638E4041E2;745.
+(rerunfilecheck)             Checksum: E1E450F156896BC8D9EF3569673A1CAD;856.
  ) 
 Here is how much of TeX's memory you used:
- 13157 strings out of 477989
- 210706 string characters out of 5837643
- 1922340 words of memory out of 5000000
- 33004 multiletter control sequences out of 15000+600000
+ 13182 strings out of 477989
+ 211446 string characters out of 5837643
+ 1921340 words of memory out of 5000000
+ 33025 multiletter control sequences out of 15000+600000
  577569 words of font info for 79 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,17n,76p,1289b,636s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}<c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/seek1477/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on crosswalk.pdf (18 pages, 417993 bytes).
+Output written on crosswalk.pdf (17 pages, 416924 bytes).
 PDF statistics:
- 356 PDF objects out of 1000 (max. 8388607)
- 279 compressed objects within 3 object streams
- 67 named destinations out of 1000 (max. 500000)
- 117 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 358 PDF objects out of 1000 (max. 8388607)
+ 282 compressed objects within 3 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 125 words of extra memory for PDF output out of 10000 (max. 10000000)
 

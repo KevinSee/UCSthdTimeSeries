@@ -84,8 +84,10 @@ options(knitr.kable.NA = '-')
 # what kind of document is being created?
 doc.type <- knitr::opts_knit$get('rmarkdown.pandoc.to')
 
-if(doc.type == 'docx') {
-  options(knitr.table.format = "pandoc")
+if(!is.null(doc.type)) {
+  if(doc.type == 'docx') {
+    options(knitr.table.format = "pandoc")
+  }
 }
 
 # if(doc.type == "pdf") {

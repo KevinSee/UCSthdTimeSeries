@@ -3,6 +3,8 @@
 # Created: 4/9/24
 # Last Modified: 4/9/24
 # Notes: this data is from the Entiat
+# Try using wild/hatchery counts at Rocky Reach and Wells, and the difference between them to get at pHOS
+# Try using average fish/redd from Entiat 2011-2023
 
 #-----------------------------------------------------------------
 # load needed libraries
@@ -27,8 +29,9 @@ redd_data <-
 
 redd_df <-
   redd_data |>
-  mutate(across(exp_sp_total_log,
-                ~ . + 1)) |>
+  mutate(across(exp_sp_total,
+                ~ . * 6),
+         exp_sp_total_log = log(exp_sp_total)) |>
   predict_neterr(species = "Steelhead",
                  num_obs = "two",
                  err_floor = T)
@@ -253,7 +256,7 @@ ent_ts_p <-
              shape = 17) +
   scale_color_brewer(palette = "Set1",
                      name = "Source") +
-  coord_cartesian(ylim = c(0, 4000)) +
+  # coord_cartesian(ylim = c(0, 4000)) +
   labs(x = "Spawn Year",
        y = "Total Escapement Estimate",
        title = "Entiat Steelhead")

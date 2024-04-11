@@ -29,9 +29,9 @@ redd_data <-
 
 redd_df <-
   redd_data |>
-  mutate(across(exp_sp_total,
-                ~ . * 6),
-         exp_sp_total_log = log(exp_sp_total)) |>
+  # mutate(across(exp_sp_total,
+  #               ~ . * 6),
+  #        exp_sp_total_log = log(exp_sp_total)) |>
   predict_neterr(species = "Steelhead",
                  num_obs = "two",
                  err_floor = T)
@@ -188,8 +188,8 @@ dabom_est <-
                          "ENF"))
 
 
-excel_sheets("T:DFW-Team FP Upper Columbia Escapement - General/UC_Sthd/estimates/UC_STHD_Model_Output.xlsx")
-read_excel()
+# excel_sheets("T:DFW-Team FP Upper Columbia Escapement - General/UC_Sthd/estimates/UC_STHD_Model_Output.xlsx")
+# read_excel()
 
 #-----------------------------------------------------------------
 # put together
